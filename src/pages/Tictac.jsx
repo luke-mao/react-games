@@ -1,6 +1,6 @@
-import { useModal } from '@/hook/useModal';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useModal } from "@/hook/useModal";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Tictac() {
   // call the modal
@@ -18,7 +18,6 @@ export default function Tictac() {
 
   // when the game is over, needs to check the animation status
   const [isGameOver, setIsGameOver] = useState(false);
-  const [winner, setWinner] = useState(null);
   const [isAnimation, setIsAnimation] = useState(false);
   const [isAnimationWhiteBackground, setIsAnimationWhiteBackground] = useState(false);
   
@@ -27,26 +26,26 @@ export default function Tictac() {
     const row = Math.floor(index / 3);
     const col = index % 3;
 
-    const borderTop = row === 0 ? 'border-t-0' : 'border-t-2';
-    const borderBottom = row === 2 ? 'border-b-0' : 'border-b-2';
-    const borderLeft = col === 0 ? 'border-l-0' : 'border-l-2';
-    const borderRight = col === 2 ? 'border-r-0' : 'border-r-2';
+    const borderTop = row === 0 ? "border-t-0" : "border-t-2";
+    const borderBottom = row === 2 ? "border-b-0" : "border-b-2";
+    const borderLeft = col === 0 ? "border-l-0" : "border-l-2";
+    const borderRight = col === 2 ? "border-r-0" : "border-r-2";
 
     return `${borderTop} ${borderBottom} ${borderLeft} ${borderRight}`;
-  }
+  };
 
   // check the background color of this cell
   const cellBackground = (index) => {
     // when it is animation, switch between #fff and #000
     if (isAnimation) {
-      return isAnimationWhiteBackground ? 'bg-[#fff]' : 'bg-[#000]';
+      return isAnimationWhiteBackground ? "bg-[#fff]" : "bg-[#000]";
     } else {
       if (matrix[index] === 1) {
-        return 'bg-[rgb(255,220,220)]';
+        return "bg-[rgb(255,220,220)]";
       } else if (matrix[index] === 2) {
-        return 'bg-[rgb(220,220,255)]';
+        return "bg-[rgb(220,220,255)]";
       } else {
-        return 'bg-transparent';
+        return "bg-transparent";
       }
     }
   };
@@ -99,12 +98,11 @@ export default function Tictac() {
     for (const [x, y, z] of winningCombs) {
       if (matrix[x] && matrix[x] === matrix[y] && matrix[x] === matrix[z]) {
         setIsGameOver(true);
-        setWinner(matrix[x]);
 
         // prepare the modal
-        const title = `Player ${matrix[x] === 1 ? '1' : '2'} wins!`;
+        const title = `Player ${matrix[x] === 1 ? "1" : "2"} wins!`;
         const content = `A total of ${moves} moves (player1) were completed.`;
-        const onClose = () => navigate('/home');
+        const onClose = () => navigate("/home");
         const modalCallBack = () => openModal(title, content, onClose);
 
         // start the animation
@@ -117,19 +115,18 @@ export default function Tictac() {
     // and check if all cells are filled, if so, no one wins
     if (matrix.every(cell => cell !== null)) {
       setIsGameOver(true);
-      setWinner(null);
 
       // prepare the modal
-      const title = 'No one wins';
+      const title = "No one wins";
       const content = `A total of ${moves} moves (player1) were completed.`;
-      const onClose = () => navigate('/home');
+      const onClose = () => navigate("/home");
       const modalCallBack = () => openModal(title, content, onClose);
 
       // start the animation
       startAnimation(modalCallBack);
       return;
     }
-  }
+  };
 
   const startAnimation = (modalCallBack) => {
     setIsAnimation(true);
@@ -149,7 +146,7 @@ export default function Tictac() {
 
     return () => {
       clearInterval(interval);
-    }
+    };
   };
 
   return (
@@ -162,5 +159,5 @@ export default function Tictac() {
         />
       ))}
     </div>
-  )
+  );
 }

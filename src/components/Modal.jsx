@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { useModal } from "@/hook/useModal";
 import { Button } from "@/components/ui/button";
 
 export default function Modal() {
-  const { modalState, closeModal } = useModal();
+  const { modalState } = useModal();
   const { showModal, title, content, onClose } = modalState;
 
   return (
@@ -28,5 +28,5 @@ export default function Modal() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

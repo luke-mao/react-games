@@ -1,7 +1,7 @@
-import React from 'react'
-import Logo from '@/assets/logo.png'
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Link } from 'react-router-dom'
+import React from "react";
+import Logo from "@/assets/logo.png";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   // the sidebar shows different texts under lg, md, and sm screens
@@ -10,7 +10,7 @@ export default function Sidebar() {
     { to: "/games/tictactoe", lg: "Tictac", md: "Ti", sm: "Ti"},
     { to: "/games/tower", lg: "Tower", md: "To", sm: "To"},
     { to: "/games/snek", lg: "Snek", md: "S", sm: "S"},
-  ]
+  ];
 
   return (
     <div className="h-screen w-[30px] md:w-[60px] lg:w-[100px] fixed bg-[#eee]">
@@ -19,7 +19,7 @@ export default function Sidebar() {
         <AvatarFallback>Logo</AvatarFallback>
       </Avatar>
       <div className="flex flex-col items-center gap-3 pt-5 lg:pt-0">
-        {links.map((link, index) => (
+        {links.map((link) => (
           <Link
             key={link.to}
             to={link.to}
@@ -31,5 +31,5 @@ export default function Sidebar() {
         ))}
       </div>
     </div>
-  )
+  );
 }

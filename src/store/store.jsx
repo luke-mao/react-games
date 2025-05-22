@@ -1,5 +1,5 @@
 // create modal context
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState } from "react";
 
 export const ModalContext = createContext();
 
@@ -7,8 +7,8 @@ export const ModalProvider = ({ children }) => {
   // showModal, title, content, onClose
   const [modalState, setModalState] = useState({
     showModal: false,
-    title: '',
-    content: '',
+    title: "",
+    content: "",
     onClose: () => {},
   });
 
@@ -37,5 +37,5 @@ export const ModalProvider = ({ children }) => {
     <ModalContext.Provider value={{ modalState, openModal, closeModal }}>
       {children}
     </ModalContext.Provider>
-  )
-}
+  );
+};

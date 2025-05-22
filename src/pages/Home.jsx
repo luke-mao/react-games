@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 export default function Home() {
   return (
@@ -10,5 +10,5 @@ export default function Home() {
         Please choose an option from the sidebar.
       </div>
     </div>
-  )
+  );
 }

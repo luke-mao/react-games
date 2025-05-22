@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 export default function Footer() {
   // the footer width needs to minus the sidebar width under breakpoints
@@ -10,5 +10,5 @@ export default function Footer() {
       lg:left-[100px] lg:w-[calc(100%-100px)]
       "
     />
-  )
+  );
 }
