@@ -7,13 +7,16 @@ export default function Sidebar() {
   // the sidebar shows different texts under lg, md, and sm screens
   const links = [
     { to: "/home", lg: "Home", md: "H", sm: "H"},
-    { to: "/games/tictactoe", lg: "Tictac", md: "Ti", sm: "Ti"},
-    { to: "/games/tower", lg: "Tower", md: "To", sm: "To"},
-    { to: "/games/snek", lg: "Snek", md: "S", sm: "S"},
+    { to: "/game/tictactoe", lg: "Tictac", md: "Ti", sm: "Ti"},
+    { to: "/game/tower", lg: "Tower", md: "To", sm: "To"},
+    { to: "/game/snek", lg: "Snek", md: "S", sm: "S"},
+    { to: "/game/math", lg: "Math", md: "Ma", sm: "Ma"},
+    { to: "/game/connect", lg: "Connect 4", md: "Co", sm: "Co"},
+    { to: "/game/memory", lg: "Memorisation", md: "Me", sm: "Me"},
   ];
 
   return (
-    <div className="h-screen w-[30px] md:w-[60px] lg:w-[100px] fixed bg-[#eee]">
+    <div className="h-screen w-[40px] md:w-[70px] lg:w-[110px] fixed bg-[#eee]">
       <Avatar className=" hidden lg:block w-[50px] h-[50px] my-[15px] mx-auto">
         <AvatarImage src={Logo}/>
         <AvatarFallback>Logo</AvatarFallback>

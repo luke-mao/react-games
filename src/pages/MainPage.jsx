@@ -4,6 +4,9 @@ import Home from "@/pages/Home";
 import Snek from "@/pages/Snek";
 import Tictac from "@/pages/Tictac";
 import Tower from "@/pages/Tower";
+import Math from "@/pages/Math";
+import Connect4 from "@/pages/Connect4";
+import Memorisation from "@/pages/Memorisation";
 
 export default function MainPage() {
   return (
@@ -11,18 +14,24 @@ export default function MainPage() {
       className="
         fixed top-0
         h-[calc(100%-50px)]
-        left-[30px] w-[calc(100%-30px)]
-        md:left-[60px] md:w-[calc(100%-60px)]
-        lg:left-[100px] lg:w-[calc(100%-100px)]
+        left-[40px] w-[calc(100%-40px)]
+        md:left-[70px] md:w-[calc(100%-70px)]
+        lg:left-[110px] lg:w-[calc(100%-110px)]
         bg-blue
       "
     >
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/games/snek" element={<Snek />} />
-        <Route path="/games/tictactoe" element={<Tictac />} />
-        <Route path="/games/tower" element={<Tower />} />
+        <Route path="/game/snek" element={<Snek />} />
+        <Route path="/game/tictactoe" element={<Tictac />} />
+        <Route path="/game/tower" element={<Tower />} />
+        <Route path="/game/math" element={<Math />} />
+        <Route path="/game/connect" element={<Connect4 />} />
+        <Route path="/game/memory" element={<Memorisation />} />
+
+        {/* match 404 */}
+        <Route path="*" element={<Home />} />
       </Routes>
     </div>
   );

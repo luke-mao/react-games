@@ -58,11 +58,8 @@ export default function Snek() {
     // destructure the game object
     const { board, snake, snakeDirection } = prevGame;
 
-    console.log("move snake");
-
     // get the first coordinate of the snake
     const head = { row: snake[0].row, col: snake[0].col };
-    console.log("line 56", head);
 
     // base on the direction, move the head
     if (snakeDirection === "down") {
@@ -75,8 +72,6 @@ export default function Snek() {
       head.col += 1;
     }
 
-    console.log("line 69", head);
-
     // check if the head touches the wall, or the snake body
     const isFail = 
       head.row < 0 ||
@@ -84,8 +79,6 @@ export default function Snek() {
       head.col < 0 ||
       head.col >= 10 ||
       snake.slice(0, snake.length - 1).some((s) => s.row === head.row && s.col === head.col);
-    
-    console.log("isFail", isFail);
 
     if (isFail) {
       const resultGame = {

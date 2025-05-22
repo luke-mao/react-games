@@ -22,7 +22,7 @@ const COLORS = [
 ];
 
 const NumberBlockDialog = ({ setNumBlocks, startGame }) => (
-  <Dialog open={true}>
+  <Dialog open={true} onOpenChange={startGame}>
     <DialogContent>
       <DialogHeader>
         <DialogTitle>
@@ -84,8 +84,6 @@ export default function Tower() {
     const tower3 = [];
     setTowers([tower1, tower2, tower3]);
   };
-
-  console.log(stage, numBlocks, towers);
 
   // reset the game
   const resetGame = () => {
