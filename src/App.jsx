@@ -1,11 +1,13 @@
-import { Button } from "@/components/ui/button"
+import React from 'react'
+import Modal from '@/components/Modal'
 
-function App() {
+export default function App() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh">
-      <Button>Click me</Button>
+    <div className="w-full h-screen bg-amber-50">
+      <Modal/>
+      <div className="w-full h-full bg-red-600">
+
+      </div>
     </div>
   )
 }
-
-export default App
