@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { Input } from "@/components/ui/input"
-import { Button } from '@/components/ui/button';
+import React, { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function MathGame() {
   // get random number between 1 and 50 inclusive
   const getNumber = () => Math.floor(Math.random() * 50) + 1;
 
   // choose random operator
-  const operators = ['+', '-', '*', '/', '%'];
+  const operators = ["+", "-", "*", "/", "%"];
   const getOperator = () => operators[Math.floor(Math.random() * operators.length)];
 
 
@@ -38,7 +38,7 @@ export default function MathGame() {
     } else if (operator === "%") {
       return number1 % number2;
     }
-  }
+  };
 
   // user input 
   const [userInput, setUserInput] = useState("");
@@ -51,7 +51,7 @@ export default function MathGame() {
 
     // clear user input
     setUserInput("");
-  }
+  };
 
   useEffect(() => {
     // userInput is a string, and the getAnswer is a number,
@@ -96,5 +96,5 @@ export default function MathGame() {
         Reset
       </Button>
     </div>
-  )
+  );
 }
