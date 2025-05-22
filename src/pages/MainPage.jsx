@@ -4,7 +4,7 @@ import Home from "@/pages/Home";
 import Snek from "@/pages/Snek";
 import Tictac from "@/pages/Tictac";
 import Tower from "@/pages/Tower";
-import Math from "@/pages/Math";
+import MathGame from "@/pages/MathGame";
 import Connect4 from "@/pages/Connect4";
 import Memorisation from "@/pages/Memorisation";
 
@@ -26,7 +26,7 @@ export default function MainPage() {
         <Route path="/game/snek" element={<Snek />} />
         <Route path="/game/tictactoe" element={<Tictac />} />
         <Route path="/game/tower" element={<Tower />} />
-        <Route path="/game/math" element={<Math />} />
+        <Route path="/game/math" element={<MathGame />} />
         <Route path="/game/connect" element={<Connect4 />} />
         <Route path="/game/memory" element={<Memorisation />} />
 
