@@ -2,6 +2,13 @@ import React from 'react'
 
 export default function Home() {
   return (
-    <div>Home</div>
+    <div className="w-full h-full flex flex-col items-center justify-center gap-5">
+      <div className="text-4xl font-bold text-blue-500">
+        React Games
+      </div>
+      <div className="text-3xl font-bold text-blue-500">
+        Please choose an option from the sidebar.
+      </div>
+    </div>
   )
 }
