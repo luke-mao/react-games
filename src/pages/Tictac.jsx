@@ -7,13 +7,20 @@ export default function Tictac() {
   const { openModal } = useModal();
   const navigate = useNavigate();
 
+  // number of moves to record
+  const [moves, setMoves] = useState(0);
+
   // 3 * 3 matrix for the layout, here for convenience use an array of 9 null values
   const emptyMatrix = Array(9).fill(null);
 
   const [matrix, setMatrix] = useState(emptyMatrix);
   const [isPlayer1Move, setIsPlayer1Move] = useState(true);
+
+  // when the game is over, needs to check the animation status
   const [isGameOver, setIsGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
+  const [isAnimation, setIsAnimation] = useState(false);
+  const [isAnimationWhiteBackground, setIsAnimationWhiteBackground] = useState(false);
   
   // use the index to check the border status of the cell
   const borderStatus = (index) => {
@@ -30,14 +37,19 @@ export default function Tictac() {
 
   // check the background color of this cell
   const cellBackground = (index) => {
-    if (matrix[index] === 1) {
-      return 'bg-[rgb(255,220,220)]';
-    } else if (matrix[index] === 2) {
-      return 'bg-[rgb(220,220,255)]';
+    // when it is animation, switch between #fff and #000
+    if (isAnimation) {
+      return isAnimationWhiteBackground ? 'bg-[#fff]' : 'bg-[#000]';
     } else {
-      return 'bg-transparent';
+      if (matrix[index] === 1) {
+        return 'bg-[rgb(255,220,220)]';
+      } else if (matrix[index] === 2) {
+        return 'bg-[rgb(220,220,255)]';
+      } else {
+        return 'bg-transparent';
+      }
     }
-  }
+  };
 
   // on click for the cell
   const onClickCell = (index) => {
@@ -53,6 +65,11 @@ export default function Tictac() {
     // now the next player
     setIsPlayer1Move(!isPlayer1Move);
     setMatrix(newMatrix);
+
+    // when it is the player 1, increase the moves
+    if (isPlayer1Move) {
+      setMoves(prev => prev + 1);
+    }
 
     // and check if the game is over
     gameOverCheck(newMatrix);
@@ -84,11 +101,14 @@ export default function Tictac() {
         setIsGameOver(true);
         setWinner(matrix[x]);
 
-        // when the game is over, call the modal
-        const title = matrix[x] === 1 ? 'Player 1 wins!' : 'Player 2 wins!';
-        const content = `A total of X moves were complete`;
+        // prepare the modal
+        const title = `Player ${matrix[x] === 1 ? '1' : '2'} wins!`;
+        const content = `A total of ${moves} moves (player1) were completed.`;
         const onClose = () => navigate('/home');
-        openModal(title, content, onClose);
+        const modalCallBack = () => openModal(title, content, onClose);
+
+        // start the animation
+        startAnimation(modalCallBack);
 
         return;
       }
@@ -99,17 +119,38 @@ export default function Tictac() {
       setIsGameOver(true);
       setWinner(null);
 
-      // no one wins
-      const title = 'No one wins!';
-      const content = `A total of X moves were complete`;
+      // prepare the modal
+      const title = 'No one wins';
+      const content = `A total of ${moves} moves (player1) were completed.`;
       const onClose = () => navigate('/home');
-      openModal(title, content, onClose);
+      const modalCallBack = () => openModal(title, content, onClose);
+
+      // start the animation
+      startAnimation(modalCallBack);
       return;
     }
   }
 
+  const startAnimation = (modalCallBack) => {
+    setIsAnimation(true);
+    
+    let count = 0;
+    const interval = setInterval(() => {
+      setIsAnimationWhiteBackground(prev => !prev);
+      count++;
+      
+      // when it 6 times, stop
+      if (count === 6) {
+        clearInterval(interval);
+        setIsAnimation(false);
+        modalCallBack();
+      }
+    }, 500);
 
-
+    return () => {
+      clearInterval(interval);
+    }
+  };
 
   return (
     <div className="w-full h-full flex flex-row flex-wrap">
