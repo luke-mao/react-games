@@ -1,6 +1,7 @@
 import React from 'react'
 import Modal from '@/components/Modal'
-import Sidebar from '@/components/ui/Sidebar'
+import Sidebar from '@/components/Sidebar'
+import Footer from '@/components/Footer'
 
 export default function App() {
   return (
@@ -8,6 +9,7 @@ export default function App() {
       <Modal/>
       <div className="w-full h-screen">
         <Sidebar/>
+        <Footer/>
       </div>
     </div>
   )
