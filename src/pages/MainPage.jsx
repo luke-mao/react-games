@@ -21,7 +21,7 @@ export default function MainPage() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/games/snek" element={<Snek />} />
-        <Route path="/games/tictac" element={<Tictac />} />
+        <Route path="/games/tictactoe" element={<Tictac />} />
         <Route path="/games/tower" element={<Tower />} />
       </Routes>
     </div>

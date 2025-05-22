@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 
 export default function Modal() {
   const { modalState, closeModal } = useModal();
-  const { showModal, title, content } = modalState;
+  const { showModal, title, content, onClose } = modalState;
 
   return (
     <Dialog
       open={showModal}
-      onOpenChange={closeModal}
+      onOpenChange={onClose}
     >
       <DialogContent>
         <DialogHeader>
@@ -22,11 +22,9 @@ export default function Modal() {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="justify-end">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
-            </Button>
-          </DialogClose>
+          <Button type="button" variant="secondary" onClick={onClose}>
+            Close
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
