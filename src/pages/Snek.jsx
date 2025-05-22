@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { useModal } from "@/hook/useModal";
+import { useNavigate } from "react-router-dom";
 
 export default function Snek() {
+  const { openModal } = useModal(); 
+  const navigate = useNavigate();
+
   // 10 * 10 board
   const initialBoard = Array.from({ length: 10 }, () => Array(10).fill(null));
 
@@ -32,7 +38,7 @@ export default function Snek() {
     }
 
     return board;
-  }
+  };
 
   // put the game attributes into a single variable
   const initialGame = {
@@ -43,15 +49,14 @@ export default function Snek() {
     ],
     snakeDirection: "down",
     isGameOver: false,
-    isWin: false,
-  }
+  };
 
   const [game, setGame] = useState(initialGame);
 
   // move the snake every 500ms
   const moveSnake = (prevGame) => {
     // destructure the game object
-    const { board, snake, snakeDirection, isGameOver, isWin } = prevGame;
+    const { board, snake, snakeDirection } = prevGame;
 
     console.log("move snake");
 
@@ -86,7 +91,13 @@ export default function Snek() {
       const resultGame = {
         ...prevGame,
         isGameOver: true,
-      }
+      };
+
+      // show the modal
+      const title = "Game Over";
+      const description = "You lose!";
+      const onClose = () => navigate("/home");
+      openModal(title, description, onClose);
 
       return resultGame;
     }
@@ -122,6 +133,17 @@ export default function Snek() {
         board: newBoardWithFood,
         snake: newSnake,
       };
+
+      // check if the length is 20, if yes, then win
+      if (newSnake.length === 4) {
+        resultGame.isGameOver = true;
+
+        // and show the modal
+        const title = "You Win";
+        const description = "Congratulations!";
+        const onClose = () => navigate("/home");
+        openModal(title, description, onClose);
+      }
 
       return resultGame;
     } else {
@@ -164,8 +186,41 @@ export default function Snek() {
     return () => clearInterval(interval);
   }, [game.isGameOver]);
 
+  const listenKey = (code, game, setGame) => {
+    // WSAD or Arrow keys
+    let newDirection = null;
+
+    if (code === "ArrowDown" || code === "s") {
+      newDirection = "down";
+    } else if (code === "ArrowUp" || code === "w") {
+      newDirection = "up";
+    } else if (code === "ArrowLeft" || code === "a") {
+      newDirection = "left";
+    } else if (code === "ArrowRight" || code === "d") {
+      newDirection = "right";
+    }
+
+    if (newDirection) {
+      const newGame = {
+        ...game,
+        snakeDirection: newDirection,
+      };
+
+      setGame(newGame);
+    }
+  };
+
+  // add window event listener, so that we don't need to do the "focs" on the div
+  useEffect(() => {
+    const keyFunction = (e) => listenKey(e.key, game, setGame);
+    window.addEventListener("keydown", keyFunction);
+    return () => window.removeEventListener("keydown", keyFunction);
+  }, [game, setGame]);
+
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
+    <div 
+      className="w-full h-full flex flex-col items-center justify-center"
+    >
       <div className="flex flex-col">
         {game.board.map((row, rowIndex) => (
           <div key={rowIndex} className="flex flex-row">
@@ -177,6 +232,23 @@ export default function Snek() {
             ))}
           </div>
         ))}
+      </div>
+      {/* add some buttons for mobile phone */}
+      <div className="flex flex-col justify-center items-center mt-5 gap-5">
+        <Button variant="secondary" className="w-fit" onClick={() => listenKey("ArrowUp", game, setGame)}>
+          Up
+        </Button>
+        <div className="flex flex-row gap-10">
+          <Button variant="secondary" className="w-fit" onClick={() => listenKey("ArrowLeft", game, setGame)}>
+            Left
+          </Button>
+          <Button variant="secondary" className="w-fit" onClick={() => listenKey("ArrowRight", game, setGame)}>
+            Right
+          </Button>
+        </div>
+        <Button variant="secondary" className="w-fit" onClick={() => listenKey("ArrowDown", game, setGame)}>
+          Down
+        </Button>
       </div>
     </div>
   );
