@@ -10,7 +10,6 @@ export default function MathGame() {
   const operators = ["+", "-", "*", "/", "%"];
   const getOperator = () => operators[Math.floor(Math.random() * operators.length)];
 
-
   // random integer from 1 to 50, inclusive
   const [number1, setNumber1] = useState(getNumber());
   const [number2, setNumber2] = useState(getNumber());
@@ -64,9 +63,6 @@ export default function MathGame() {
       }, 100);
     }
   }, [userInput]);
-
-
-
 
   const style = "w-1/5 h-[40%] text-6xl text-[#333] bg-gradient-to-r from-[#abcabc] to-[#cbacbd] flex items-center justify-center";
 

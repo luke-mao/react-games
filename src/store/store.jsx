@@ -9,21 +9,31 @@ export const ModalProvider = ({ children }) => {
     showModal: false,
     title: "",
     content: "",
+    // onClose is also the onYes
     onClose: () => {},
+    onNo: () => {},
+    modalType: "info",  // info, or yesno
   });
 
   // function to open the modal
-  const openModal = (title, content, onClose) => {
+  const openModal = (title, content, onClose, modalType = "info", onNo = () => {}) => {
     setModalState({
       showModal: true,
       title,
       content,
+      modalType,
       onClose: () => {
         setModalState(prev => ({ ...prev, showModal: false }));
         if (onClose) {
           onClose();
         }
-      }
+      },
+      onNo: () => {
+        setModalState(prev => ({ ...prev, showModal: false }));
+        if (onNo) {
+          onNo();
+        }
+      },
     });
   };
 

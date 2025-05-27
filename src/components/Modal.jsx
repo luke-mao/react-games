@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Modal() {
   const { modalState } = useModal();
-  const { showModal, title, content, onClose } = modalState;
+  const { showModal, title, content, onClose, onNo, modalType } = modalState;
 
   return (
     <Dialog
@@ -22,9 +22,21 @@ export default function Modal() {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="justify-end">
-          <Button type="button" variant="secondary" onClick={onClose}>
-            Close
-          </Button>
+          {modalType === "yesno" && (
+            <>
+              <Button type="button" variant="outline" onClick={onNo}>
+                No
+              </Button>
+              <Button type="button" variant="outline" onClick={onClose}>
+                Yes
+              </Button>
+            </>
+          )}
+          {modalType === "info" && (
+            <Button type="button" variant="secondary" onClick={onClose}>
+              Close
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>
