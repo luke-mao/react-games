@@ -17,8 +17,8 @@ const STAGES = {
   STAGE_USER_CLICK: "StageUserClick",
   STAGE_SUCCESS: "StageSuccess",
   STAGE_FAIL: "StageFail",
-  STAGE_WIN: "StageWin",
-  STAGE_END: "StageEnd",
+  WIN: "Win",
+  END: "End",
 }
 
 export default function Memorisation() {
@@ -35,6 +35,10 @@ export default function Memorisation() {
   const cells = [0, 1, 2, 3];
 
   const [gameStage, setGameStage] = useState(initialState);
+
+  // track the cells to be flashed
+  const [flashedCells, setFlashedCells] = useState([]);
+
 
   // get a list of random values between [0, 3], base on the number of values required
   const getRandom = (count) => {
@@ -74,10 +78,46 @@ export default function Memorisation() {
           }));
         }
       )
+    } else if (gameStage.stage === STAGES.STAGE_DEMO) {
+      let i = 0;
+      
+      const makeFlash = () => {
+        if (i < gameStage.correctOrders.length) {
+          // set this cell to flash
+          setFlashedCells([gameStage.correctOrders[i]]);
+          i++;
+
+          // set the cells to empty after 0.5 seconds
+          setTimeout(() => {
+            setFlashedCells([]);
+            makeFlash();
+          }, 500);
+        } else {
+          // no cell flash, move to the user click stage
+          setGameStage(prev => ({
+            ...prev,
+            stage: STAGES.STAGE_USER_CLICK,
+            userOrders: [],
+          }));
+
+          setFlashedCells([]);
+        }
+      }
+
+      // wait for 0.2 seconds, then start flashing
+      setTimeout(() => makeFlash(), 200);
+    } else if (gameStage.stage === STAGES.STAGE_USER_CLICK) {
+      // if the click is wrong, 
+      // all cells flash with a red background for 0.5 seconds, 
+      // and the user repeats this step
+
+
+
     }
 
   }, [gameStage]);
 
+  // cells have different background colors based on the game stage and the flashing.
   const getBackgroundColor = (cell) => {
     // START: "Start",  ok
     // STAGE_DEMO: "StageDemo",
@@ -87,21 +127,51 @@ export default function Memorisation() {
     // STAGE_WIN: "StageWin",
     // STAGE_END: "StageEnd", ok
 
-    if (gameStage.stage === STAGES.STAGE_DEMO || gameStage.stage === STAGES.STAGE_END) {
+    if (gameStage.stage === STAGES.START || gameStage.stage === STAGES.END) {
+      return "bg-white";
+    } else if (gameStage.stage === STAGES.STAGE_DEMO) {
+      console.log(cell, flashedCells, flashedCells.includes(cell))
+      // only flash the cells in the flashedCells array
+      return flashedCells.includes(cell) ? "bg-[#999]" : "bg-white";
+    } else if (gameStage.stage === STAGES.STAGE_USER_CLICK) {
+      // do not flash
+      return "bg-white";
+    } else if (gameStage.stage === STAGES.STAGE_SUCCESS) {
+      // move to the next stage
+      return "bg-white";
+    } else if (gameStage.stage === STAGES.STAGE_FAIL) {
+      // flash all cells in red
+      return "bg-red-500";
+    } else if (gameStage.stage === STAGES.WIN) {
+      // show nothing
       return "bg-white";
     }
-
-
-
-
-
   }
-
 
   // reset game to the start
   const resetGame = () => {
     setGameStage(initialState);
+    setFlashedCells([]);
   };
+
+  // click on the cell
+  const clickCell = (cell) => {
+    // only when the gameStage is STAGE_USER_CLICK, then the click is working
+    if (gameStage.stage !== STAGES.STAGE_USER_CLICK) {
+      return;
+    }
+    
+    // append this cell to the userOrders
+    setGameStage(prev => {
+      const newUserOrders = [...prev.userOrders, cell];
+
+      // save the state
+      setGameStage({
+        ...prev,
+        userOrders: newUserOrders,
+      })
+    })
+  }
 
   return (
     <div className="w-full h-full flex flex-col gap-15 items-center justify-center">
