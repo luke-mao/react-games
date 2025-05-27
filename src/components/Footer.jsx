@@ -5,9 +5,9 @@ export default function Footer() {
   return (
     <div className="
       h-[50px] bg-[#999] fixed bottom-0
-      left-[30px] w-[calc(100%-30px)]
-      md:left-[60px] md:w-[calc(100%-60px)]
-      lg:left-[100px] lg:w-[calc(100%-100px)]
+      left-[40px] w-[calc(100%-30px)]
+      md:left-[70px] md:w-[calc(100%-60px)]
+      lg:left-[110px] lg:w-[calc(100%-100px)]
       "
     />
   );
