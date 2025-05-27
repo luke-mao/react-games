@@ -31,7 +31,7 @@ export default function MainPage() {
         <Route path="/game/tower" element={<Tower />} />
         <Route path="/game/math" element={<MathGame />} />
         <Route path="/game/connect" element={<Connect4 />} />
-        <Route path="/game/memory" element={<Memorisation />} />
+        <Route path="/game/memorisation" element={<Memorisation />} />
         <Route path="/game/operations" element={<Operations />} />
         <Route path="/game/memory" element={<Memory />} />
         <Route path="/game/space" element={<Space />} />

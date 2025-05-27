@@ -1,13 +1,13 @@
-import { Button } from '@/components/ui/button';
-import { useModal } from '@/hook/useModal';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
+import { useModal } from "@/hook/useModal";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Operations() {
   const navigate = useNavigate();
   const { openModal } = useModal();
 
-  const operators = ['+', '-', '*', '/'];
+  const operators = ["+", "-", "*", "/"];
 
   const getData = () => {
     // get a random number between 1 and 10
@@ -19,13 +19,13 @@ export default function Operations() {
 
     // calculate the result
     let result;
-    if (operator === '+') {
+    if (operator === "+") {
       result = num1 + num2;
-    } else if (operator === '-') {
+    } else if (operator === "-") {
       result = num1 - num2;
-    } else if (operator === '*') {
+    } else if (operator === "*") {
       result = num1 * num2;
-    } else if (operator === '/') {
+    } else if (operator === "/") {
       result = Math.round(num1 / num2 * 100) / 100;
     }
 
@@ -35,7 +35,7 @@ export default function Operations() {
       num2,
       operator,
       result,
-    }
+    };
   };
 
   // the game data
@@ -52,8 +52,8 @@ export default function Operations() {
         "Would you like to play another game?",
         () => resetGame(),
         "yesno",
-        () => navigate('/')
-      )
+        () => navigate("/")
+      );
     } else {
       // onClose => another game, onNo => navigate to home
       openModal(
@@ -61,8 +61,8 @@ export default function Operations() {
         `The correct answer is ${game.operator}`,
         () => resetGame(),
         "yesno",
-        () => navigate('/')
-      )
+        () => navigate("/")
+      );
     }
   };
 
@@ -71,7 +71,7 @@ export default function Operations() {
       <div className="w-full flex flex-row items-center justify-center">
         <div className="w-1/5 text-6xl flex items-center justify-center">{game.num1}</div>
         <div className="w-1/5 text-6xl flex flex-row flex-wrap items-center justify-center gap-3">
-          {operators.map((op, index) => (
+          {operators.map((op) => (
             <Button
               key={op}
               variant="outline" 
@@ -94,5 +94,5 @@ export default function Operations() {
         Reset
       </Button>
     </div>
-  )
+  );
 }

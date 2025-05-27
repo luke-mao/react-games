@@ -12,7 +12,7 @@ export default function Sidebar() {
     { to: "/game/snek", lg: "Snek", md: "S", sm: "S"},
     { to: "/game/math", lg: "Math", md: "Ma", sm: "Ma"},
     { to: "/game/connect", lg: "Connect 4", md: "Co", sm: "Co"},
-    { to: "/game/memory", lg: "Memorisation", md: "Me", sm: "Me"},
+    { to: "/game/memorisation", lg: "Memorisation", md: "Me", sm: "Me"},
     { to: "/game/operations", lg: "Operations", md: "Op", sm: "Op"},
     { to: "/game/memory", lg: "Memory", md: "Me", sm: "Me"},
     { to: "/game/space", lg: "Space", md: "Sp", sm: "Sp"},
