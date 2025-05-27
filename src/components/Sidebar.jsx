@@ -33,9 +33,9 @@ export default function Sidebar() {
             key={link.to}
             to={link.to}
           >
-            <span className="hidden lg:block text-base font-semibold text-center">{link.lg}</span>
-            <span className="hidden md:block lg:hidden text-semibold font-bold text-center">{link.md}</span>
-            <span className="block md:hidden text-base font-semibold text-center">{link.sm}</span>
+            <span className="hidden lg:block text-base text-center">{link.lg}</span>
+            <span className="hidden md:block lg:hidden text-center">{link.md}</span>
+            <span className="block md:hidden text-base text-center">{link.sm}</span>
           </Link>
         ))}
       </div>

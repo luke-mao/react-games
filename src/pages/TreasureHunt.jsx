@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const STAGES = {
@@ -9,9 +9,97 @@ const STAGES = {
   RESULT: "result",
 };
 
+const getCoins = (goal, width, height) => {
+  // get the distance in px between two {x, y} coordinates
+  const distance = (coor1, coor2) => {
+    // x * width / 100, y * height / 100
+    const x1 = coor1.x * width / 100;
+    const y1 = coor1.y * height / 100;
+    const x2 = coor2.x * width / 100;
+    const y2 = coor2.y * height / 100;
+
+    const d = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    return d;
+  };
+
+  // is very overlap: 30px is the diameter, so two center points should be at least 25px apart
+  const isVeryOverlap = (coor, coins) => {
+    return coins.some(coin => {
+      return distance(coor, coin) < 25; // 30px diameter, so 25px apart
+    });
+  };
+
+  let coins = [];
+
+  // first generate real coins
+  for (let i = 0; i < goal; i++) {
+    let coor;
+
+    do {
+      coor = {
+        x: Math.floor(Math.random() * 90) + 5, // between 5% and 95%
+        y: Math.floor(Math.random() * 90) + 5, // between 5% and 95%
+        isReal: true,
+        clicked: false,
+      };
+    } while (coins.length != 0 && isVeryOverlap(coor, coins));
+
+    coins.push(coor);
+  }
+
+  // then generate fake coins
+  for (let i = 0; i < goal; i++) {
+    let coor;
+
+    do {
+      coor = {
+        x: Math.floor(Math.random() * 90) + 5, // between 5% and 95%
+        y: Math.floor(Math.random() * 90) + 5, // between 5% and 95%
+        isReal: false,
+        clicked: false,
+      };
+    } while (isVeryOverlap(coor, coins));
+    
+    coins.push(coor);
+  }
+
+  return coins;
+};
+
 export default function TreasureHunt() {
   const navigate = useNavigate();
 
+  // mark the container, so that I can get the height and width
+  const containerRef = useRef(null);
+  const [size, setSize] = useState({
+    width: 0,
+    height: 0,
+  });
+
+  // track the container
+  useEffect(() => {
+    // watch for the resize
+    const handleResize = () => {
+      if (containerRef.current) {
+        setSize({
+          width: containerRef.current.offsetWidth,
+          height: containerRef.current.offsetHeight,
+        });
+      }
+    };
+
+    if (containerRef.current) {
+      setSize({
+        width: containerRef.current.offsetWidth,
+        height: containerRef.current.offsetHeight,
+      });
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // the game settings
   const [stage, setStage] = useState(STAGES.PRESTART);
   const [timeLimit, setTimeLimit] = useState(10);
   const [goalCoins, setGoalCoins] = useState(5);
@@ -27,28 +115,15 @@ export default function TreasureHunt() {
     const seconds = parseInt(timeLimit, 10);
     const goal = parseInt(goalCoins, 10);
 
-    // generate the random coordinates x and y in 0 - 100 for the coins
-    // 2 * goalCoins number, the first half are the real coins, the second half are the fake coins
-    const realCoins = Array.from({ length: goalCoins }, () => ({
-      x: Math.floor(Math.random() * 100),
-      y: Math.floor(Math.random() * 100),
-      isReal: true,
-      clicked: false,
-    }));
-
-    const fakeCoins = Array.from({ length: goalCoins }, () => ({
-      x: Math.floor(Math.random() * 100),
-      y: Math.floor(Math.random() * 100),
-      isReal: false,
-      clicked: false,
-    }));
+    // generate the coins without excessive overlapping
+    const newCoins = getCoins(goal, size.width, size.height);
 
     // set states
     setTimeLimit(seconds);
     setGoalCoins(goal);
     setStage(STAGES.PLAY);
 
-    setCoins([...realCoins, ...fakeCoins]);
+    setCoins(newCoins);
     setTimer(seconds);
     setRemainingCoins(goal);
   };
@@ -73,7 +148,7 @@ export default function TreasureHunt() {
         }, 150);
       }
     }
-  }
+  };
 
   // when the game stage is in the play, reduce the timer every second
   useEffect(() => {
@@ -87,16 +162,16 @@ export default function TreasureHunt() {
           } else {
             return prev - 1;
           }
-        })
+        });
       }, 1000);
 
       return () => clearInterval(interval);
     }
   }, [stage]);
 
-
   return (
-    <div 
+    <div
+      ref={containerRef}
       className="w-full h-full flex flex-col items-center justify-center"
       onClick={() => {
         if (stage === STAGES.RESULT) {
