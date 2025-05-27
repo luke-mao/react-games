@@ -24,16 +24,16 @@ export default function Modal() {
         <DialogFooter className="justify-end">
           {modalType === "yesno" && (
             <>
-              <Button type="button" variant="outline" onClick={onNo}>
+              <Button type="button" variant="outline" onClick={onNo} className="cursor-pointer">
                 No
               </Button>
-              <Button type="button" variant="outline" onClick={onClose}>
+              <Button type="button" variant="outline" onClick={onClose} className="cursor-pointer">
                 Yes
               </Button>
             </>
           )}
           {modalType === "info" && (
-            <Button type="button" variant="secondary" onClick={onClose}>
+            <Button type="button" variant="secondary" onClick={onClose} className="cursor-pointer">
               Close
             </Button>
           )}

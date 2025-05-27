@@ -216,7 +216,7 @@ export default function Memorisation() {
         {cells.map((cell) => (
           <div
             key={`cell-${cell}`}
-            className={`h-1/2 aspect-square border-[rgb(255,0,255)] border-1 border-solid ${getBackgroundColor(cell)}`}
+            className={`h-1/2 aspect-square border-[rgb(255,0,255)] border-1 border-solid ${getBackgroundColor(cell)} ${gameStage.stage === STAGES.STAGE_USER_CLICK ? "cursor-pointer" : ""}`}
             onClick={() => clickCell(cell)}
           />
         ))}
@@ -224,6 +224,7 @@ export default function Memorisation() {
       <Button
         variant="outline"
         onClick={resetGame}
+        className="cursor-pointer"
       >
         Reset
       </Button>
