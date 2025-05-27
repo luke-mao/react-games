@@ -7,6 +7,9 @@ import Tower from "@/pages/Tower";
 import MathGame from "@/pages/MathGame";
 import Connect4 from "@/pages/Connect4";
 import Memorisation from "@/pages/Memorisation";
+import Operations from "@/pages/Operations";
+import Memory from "@/pages/Memory";
+import Space from "@/pages/Space";
 
 export default function MainPage() {
   return (
@@ -29,6 +32,9 @@ export default function MainPage() {
         <Route path="/game/math" element={<MathGame />} />
         <Route path="/game/connect" element={<Connect4 />} />
         <Route path="/game/memory" element={<Memorisation />} />
+        <Route path="/game/operations" element={<Operations />} />
+        <Route path="/game/memory" element={<Memory />} />
+        <Route path="/game/space" element={<Space />} />
 
         {/* match 404 */}
         <Route path="*" element={<Home />} />
