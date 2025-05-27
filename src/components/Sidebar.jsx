@@ -16,6 +16,9 @@ export default function Sidebar() {
     { to: "/game/operations", lg: "Operations", md: "Op", sm: "Op"},
     { to: "/game/memory", lg: "Memory", md: "Me", sm: "Me"},
     { to: "/game/space", lg: "Space", md: "Sp", sm: "Sp"},
+    { to: "/game/numbermemory", lg: "Number Memory", md: "NM", sm: "NM"},
+    { to: "/game/treasurehunt", lg: "Treasure Hunt", md: "TH", sm: "TH"},
+    { to: "/game/flappybird", lg: "Flappy Bird", md: "FB", sm: "FB"},
   ];
 
   return (

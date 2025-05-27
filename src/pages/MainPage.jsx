@@ -10,8 +10,12 @@ import Memorisation from "@/pages/Memorisation";
 import Operations from "@/pages/Operations";
 import Memory from "@/pages/Memory";
 import Space from "@/pages/Space";
+import NumberMemory from "@/pages/NumberMemory";
+import TreasureHunt from "@/pages/TreasureHunt";
+import FlappyBird from "@/pages/FlappyBird";
 
 export default function MainPage() {
+
   return (
     <div
       className="
@@ -35,6 +39,9 @@ export default function MainPage() {
         <Route path="/game/operations" element={<Operations />} />
         <Route path="/game/memory" element={<Memory />} />
         <Route path="/game/space" element={<Space />} />
+        <Route path="/game/numbermemory" element={<NumberMemory />} />
+        <Route path="/game/treasurehunt" element={<TreasureHunt />} />
+        <Route path="/game/flappybird" element={<FlappyBird />} />
 
         {/* match 404 */}
         <Route path="*" element={<Home />} />
