@@ -131,8 +131,6 @@ export default function Connect4() {
           winner: game.player === 1 ? 2 : 1,
         }));
 
-        console.log("winner", game.player === 1 ? 2 : 1);
-
         // start the animation
         startAnimation();
       }

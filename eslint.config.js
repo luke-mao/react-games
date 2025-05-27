@@ -33,6 +33,11 @@ export default [
       "react/prop-types": "off",
       "quotes": ["error", "double"],
       "semi": ["error", "always"],
+      "no-multiple-empty-lines": [
+        "error",
+        { max: 1, maxEOF: 0, maxBOF: 0 },
+      ],
+      "no-console": ["error", { allow: ["error"] }],
     },
   },
 ];

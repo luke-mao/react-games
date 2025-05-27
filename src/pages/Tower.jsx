@@ -144,8 +144,6 @@ export default function Tower() {
     }
   }, [stage]);
 
-
-
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-6">
       {stage === STAGE.INPUT && (
