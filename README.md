@@ -1,8 +1,14 @@
 # React Games
 
+[![Live Demo](https://img.shields.io/badge/Demo-reactgames.lukemao.site-green?logo=vercel)](https://reactgames.lukemao.site)
+[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.1-blue?logo=tailwindcss)](https://tailwindcss.com/)
+
+
+
 ## 1. Introduction
 
-This repository contains a collection of simple web games built with React. Each game is designed as a single-page application (SPA) to provide a smooth and interactive user experience. The main purpose of this project is to practice and improve React development skills through building fun and classic games. Explore the games, learn from the code, and enjoy playing!
+This repository features a collection of simple web games, each built as a single-page application (SPA) using React. The project focuses on practicing and strengthening core front-end development skills, including component-based design, state management, responsive layouts, user interaction handling, and the use of modern React hooks. These classic and casual games offer both a hands-on learning experience and a fun way to explore practical coding patterns in React. Explore the games, read through the code, and enjoy playing!
 
 ## 2. How to Play
 
@@ -51,9 +57,9 @@ Number Memory tests how many digits you can remember in sequence. When the game 
 
 Treasure Hunt is a timed clicker game. Before starting, set a time limit and the number of coins to find. The game then hides an equal number of yellow and brown coins randomly on the page—each appears as a black circle until clicked. Click the coins to reveal their colors. Your goal is to find all the yellow coins within the time limit. If you succeed, you win; if time runs out, you lose.
 
-### Flappy Bird (TODO)
+### Flappy Bird
 
-TODO
+Flappy Bird is an arcade-style game where you control a bird that automatically falls due to gravity. The player must press the space bar or click to make the bird jump and navigate it through moving pairs of obstacles with gaps. The goal is to pass through as many obstacles as possible without colliding with them or falling to the ground. If the bird hits an obstacle or the ground, the game is over.
 
 ## 3. Development
 

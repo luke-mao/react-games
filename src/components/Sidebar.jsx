@@ -27,15 +27,15 @@ export default function Sidebar() {
         <AvatarImage src={Logo}/>
         <AvatarFallback>Logo</AvatarFallback>
       </Avatar>
-      <div className="flex flex-col items-center gap-3 pt-5 lg:pt-0">
+      <div className="flex flex-col items-center gap-3 pt-5 lg:pt-0 uppercase text-center">
         {links.map((link) => (
           <Link
             key={link.to}
             to={link.to}
           >
-            <span className="hidden lg:block text-base text-center">{link.lg}</span>
-            <span className="hidden md:block lg:hidden text-center">{link.md}</span>
-            <span className="block md:hidden text-base text-center">{link.sm}</span>
+            <span className="hidden lg:block text-base">{link.lg}</span>
+            <span className="hidden md:block lg:hidden">{link.md}</span>
+            <span className="block md:hidden text-base">{link.sm}</span>
           </Link>
         ))}
       </div>

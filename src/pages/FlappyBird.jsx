@@ -263,8 +263,7 @@ export default function FlappyBird() {
           <div
             className="absolute top-3 left-3 text-xl"
           >
-            {/* the score always double counting, so for simplicity, divide by 2 */}
-            {`Score: ${score / 2}`}
+            {`Score: ${score}`}
           </div>
         )}
         {/* obstacles, each one has a top and bottom pair */}
@@ -304,7 +303,7 @@ export default function FlappyBird() {
             <div>{`Score: ${score}`}</div>
             <div>Game Over</div>
             <div>
-              {score / 2 >= 3 ? "You win!" : "You lose!"}
+              {score >= 3 ? "You win!" : "You lose!"}
             </div>
             <div>
               Click anywhere to return
