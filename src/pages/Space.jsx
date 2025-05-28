@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { useModal } from "@/hook/useModal";
 import { Button } from "@/components/ui/button";
 
-const CONTAINER_SIZE = 500;
-const SHIP_SIZE = 30;
+const CONTAINER_SIZE = 350;
+const SHIP_SIZE = 25;
 const ROCK_SIZE = 20;
-const ROCK_MARGIN = 15;
+const ROCK_MARGIN = 7.5;
 const ROCK_REGION = ROCK_SIZE + 2 * ROCK_MARGIN; // 50px
 const BULLET_TICK = 5; // one tick (one frame) is 5px
 const BULLET_SIZE = 5;
@@ -158,7 +158,7 @@ export default function Space() {
     if (win) {
       openModal(
         "Congratulations!",
-        "You have destroyed all the rocks! Press OK to continue.",
+        "You have destroyed all the rocks!",
         () => navigate("/"),
       )
     };
@@ -169,7 +169,7 @@ export default function Space() {
     <div className="w-full h-full flex flex-col items-center justify-center gap-8">
       {/* this is the 500 * 500px game layout */}
       <div 
-        className="relative border-1 border-black"
+        className="relative border-1 border-black rounded"
         style={{
           width: `${CONTAINER_SIZE}px`,
           height: `${CONTAINER_SIZE}px`
