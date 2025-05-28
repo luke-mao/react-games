@@ -37,6 +37,9 @@ export default function Space() {
   // press ENTER to release bullets
   const [bullets, setBullets] = useState([]);
 
+  // add a ref to the bullets for the animation
+  const animationRef = useRef(null);
+
   // listen to the keydown event for (A, D) or (ArrowLeft, ArrowRight)
   const moveShip = (action) => {
     // action can be "left" or "right"
@@ -97,11 +100,9 @@ export default function Space() {
     window.addEventListener("touchcancel", stop);
   };
 
-  // add a timer to all the bullets
+  // use requestAnimationFrame to animate the bullets, so it looks smooth.
   useEffect(() => {
-    // if no bullets, do nothing
-    if (bullets.length === 0) return;
-
+    // custom function to move the bullets
     // animate for all the bullets
     const moveBullets = () => {
       setBullets((prevBullets) => {
@@ -144,12 +145,16 @@ export default function Space() {
         setSquares(newSquares);
         return newBullets;
       });
+
+      // request the next animation frame
+      animationRef.current = requestAnimationFrame(moveBullets);
     };
 
-    // set interval for 25 frames per second
-    const interval = setInterval(moveBullets, 1000 / 25);
-    return () => clearInterval(interval);
+    // only animate if there are bullets
+    if (bullets.length === 0) return;
 
+    animationRef.current = requestAnimationFrame(moveBullets);
+    return () => cancelAnimationFrame(animationRef.current);
   }, [bullets.length, squares]);
 
   // when all the rocks are gone show the modal
