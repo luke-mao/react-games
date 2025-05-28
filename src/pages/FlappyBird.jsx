@@ -40,6 +40,8 @@ export default function FlappyBird() {
   // the bird has x fixed 50px from the left, and y should be in the center of the screen
   // add a ref to the gameplay screen to calculate the height
   const screenRef = useRef(null);
+  const isSmallScreen = window.innerWidth < 500;
+
   const [birdY, setBirdY] = useState(0);
 
   // the birdYRef
@@ -140,7 +142,7 @@ export default function FlappyBird() {
           prevObstacles.forEach((ob) => {
             const newOb = { ...ob };
 
-            const newLeft = newOb.left - OBSTACLE_SPEED;
+            const newLeft = newOb.left - (isSmallScreen ? OBSTACLE_SPEED * 0.5 : OBSTACLE_SPEED);
 
             // if left + OBSTACLE_WIDTH < bird X, then the bird has passed, and increase the score
             if (newLeft + OBSTACLE_WIDTH < BIRD_X && !newOb.scored) {
@@ -230,7 +232,7 @@ export default function FlappyBird() {
         ref={screenRef}
         className="
           relative 
-          w-[380px] h-[600px] 
+          w-[370px] h-[600px] 
           sm:w-[600px] sm:h-[400px] 
           bg-[#eee]
           rounded
