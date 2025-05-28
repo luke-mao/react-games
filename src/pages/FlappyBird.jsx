@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import Bird from "@/assets/bird.png";
 
 const STAGES = {
@@ -9,6 +9,10 @@ const STAGES = {
 
 const BIRD_SIZE = 20;
 const BIRD_X = 50;
+const JUMP_HEIGHT = 30;
+
+// each frame fall by 3px
+const FALL_SPEED = 0.5;
 
 export default function FlappyBird() {
   const [stage, setStage] = useState(STAGES.PRESTART);
@@ -17,8 +21,27 @@ export default function FlappyBird() {
   const startGame = () => setStage(STAGES.PLAY);
 
   // the bird has x fixed 50px from the left, and y should be in the center of the screen
-  // consider use % to make it responsive
+  // add a ref to the gameplay screen to calculate the height
+  const screenRef = useRef(null);
   const [birdY, setBirdY] = useState("50%");
+
+  // ref for the animation
+  const animationRef = useRef(null);
+
+  // counter for the number of obstacles passed
+  const [score, setScore] = useState(0);
+
+
+  useEffect(() => {
+    if (stage === STAGES.PRESTART) {
+      if (screenRef.current) {
+        // set half height of the screen, also consider the bird size
+        const screenHeight = screenRef.current.clientHeight;
+        const height = screenHeight / 2 - BIRD_SIZE / 2;
+        setBirdY(height);
+      }
+    }
+  }, [screenRef]);
 
   useEffect (() => {
     if (stage === STAGES.PRESTART) {
@@ -30,12 +53,55 @@ export default function FlappyBird() {
 
       window.addEventListener("keydown", checkSpaceKey);
       return () => window.removeEventListener("keydown", checkSpaceKey);
+    } else if (stage === STAGES.PLAY) {
+      // press SPACE to jump the bird
+      const checkSpaceKey = (e) => {
+        if (e.code === "Space") {
+          jumpBird();
+        }
+      }
+
+      window.addEventListener("keydown", checkSpaceKey);
+      return () => window.removeEventListener("keydown", checkSpaceKey);
     }
-
-
-
   }, [stage]);
 
+  const jumpBird = () => {
+    // move the bird up by 30px
+    setBirdY((prev) => {
+      // cannot jump over the top 0
+      const newY = Math.max(0, prev - JUMP_HEIGHT);
+      return newY;
+    });
+  };
+
+  // every animation, the bird is fall by 3px
+  useEffect(() => {
+    if (stage === STAGES.PLAY) {
+      // animation: bird drop by 3px per frame
+      const animate = () => {
+        setBirdY((prev) => {
+          // cannot fall below the bottom of the screen
+          const newHeight = prev + FALL_SPEED;
+          const threshold = screenRef.current.clientHeight - BIRD_SIZE / 2;
+
+          if (newHeight >= threshold) {
+            setStage(STAGES.OVER);
+            return threshold;
+          } else {
+            return newHeight;
+          }
+        });
+
+        // request the next frame
+        animationRef.current = requestAnimationFrame(animate);
+      };
+
+      // requestAnimationFrame
+      animationRef.current = requestAnimationFrame(animate);
+      return () => cancelAnimationFrame(animationRef.current);
+    }
+  }, [stage]);
 
   return (
     <div 
@@ -43,6 +109,9 @@ export default function FlappyBird() {
       onClick={() => {
         if (stage === STAGES.PRESTART) {
           startGame();
+        } else if (stage === STAGES.PLAY) {
+          // jump the bird by 30 px
+          jumpBird();
         }
       }}
     >
@@ -54,6 +123,7 @@ export default function FlappyBird() {
       )}
       {/* the gameplay screen */}
       <div
+        ref={screenRef}
         className="
           relative 
           w-[380px] h-[600px] 
@@ -77,9 +147,17 @@ export default function FlappyBird() {
             height: `${BIRD_SIZE}px`,
             left: `${BIRD_X}px`,
             // top is in percentage
-            top: birdY,
+            top: `${birdY}px`,
           }}
         />
+        {/* show the score */}
+        {stage === STAGES.PLAY && (
+          <div
+            className="absolute top-3 left-3 text-xl"
+          >
+            {`Score: ${score}`}
+          </div>
+        )}
       </div>
     </div>
   );
