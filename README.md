@@ -38,9 +38,10 @@ Operation Blanks is a quick math game. You are shown two numbers and an answer, 
 
 The Memory game challenges you to remember and repeat sequences. At each round, a sequence of letters (A, B, C, or D) will appear one by one in the instruction box. After the sequence finishes, click the corresponding buttons in the same order. Each round adds one more letter to remember. If you click out of order, the game restarts. Complete five rounds to win.
 
-### Space (TODO)
+### Space
 
-TODO
+Space is a simple shooting game inspired by classic arcade "Space Invaders." Control your spaceship at the bottom of the screen using the arrow keys (or A/D). Press the spacebar to shoot bullets upward. Your goal is to destroy all the asteroids (rocks) arranged in two rows at the top of the screen.
+Each asteroid disappears when hit by a bullet. The game ends when all asteroids are destroyed. On mobile, you can use on-screen buttons to move and shoot.
 
 ### Number Memory
 
