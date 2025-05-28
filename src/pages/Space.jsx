@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import SpaceShip from "@/assets/spaceship.png";
 import Rock from "@/assets/asteroid.png";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "@/hook/useModal";
 import { Button } from "@/components/ui/button";
@@ -46,11 +46,11 @@ export default function Space() {
     if (action === "left") {
       setShipPosition((prev) => {
         return Math.max(prev - 1, 0);
-      })
+      });
     } else if (action === "right") {
       setShipPosition((prev) => {
         return Math.min(prev + 1, CONTAINER_SIZE - SHIP_SIZE);
-      })
+      });
     } 
   };
 
@@ -165,7 +165,7 @@ export default function Space() {
         "Congratulations!",
         "You have destroyed all the rocks!",
         () => navigate("/"),
-      )
+      );
     };
 
   }, [squares]);
