@@ -42,13 +42,7 @@ export default function NumberMemory() {
 
   return (
     <div 
-      className="w-full h-full flex flex-col items-center justify-center"
-      onClick={() => {
-        if (stage === STAGES.LOSE) {
-          navigate("/home");
-        }
-      }}
-    >
+      className="w-full h-full flex flex-col items-center justify-center">
       {stage === STAGES.PRESTART && (
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="text-3xl font-bold text-blue-500">
@@ -103,7 +97,13 @@ export default function NumberMemory() {
           <div>{`Number: ${displayNumber}`}</div>
           <div>{`Your Answer: ${userInput}`}</div>
           <div>{numDigits >=4 ? "You've Won :)" : "You've Lost :("}</div>
-          <div>Click anywhere to return</div>
+          <Button
+            variant="outline"
+            className="cursor-pointer mt-3"
+            onClick={() => navigate("/home")}
+          >
+            Return
+          </Button>
         </div>
       )}
     </div>

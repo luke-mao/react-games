@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { useModal } from "@/hook/useModal";
 import { Button } from "@/components/ui/button";
 
-const CONTAINER_SIZE = 350;
+const CONTAINER_SIZE = 340;
 const SHIP_SIZE = 25;
 const ROCK_SIZE = 20;
-const ROCK_MARGIN = 7.5;
+const ROCK_MARGIN = 7;
 const ROCK_REGION = ROCK_SIZE + 2 * ROCK_MARGIN; // 50px
 const BULLET_TICK = 5; // one tick (one frame) is 5px
 const BULLET_SIZE = 5;

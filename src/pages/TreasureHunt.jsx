@@ -172,13 +172,7 @@ export default function TreasureHunt() {
   return (
     <div
       ref={containerRef}
-      className="w-full h-full flex flex-col items-center justify-center"
-      onClick={() => {
-        if (stage === STAGES.RESULT) {
-          navigate("/home");
-        }
-      }}
-    >
+      className="w-full h-full flex flex-col items-center justify-center">
       {stage === STAGES.PRESTART && (
         <div className="flex flex-col items-center justify-center gap-5 min-w-[400px]">
           <div className="text-1xl font-bold">Welcome to Treasure Hunt!</div>
@@ -233,12 +227,16 @@ export default function TreasureHunt() {
       {/* display the results in the center */}
       {stage === STAGES.RESULT && (
         <div className="flex flex-col items-center justify-center gap-5">
-          <div>
+          <div className="text-xl">
             {remainingCoins <= 0 ? "You Win!" : "You Lose!"}
           </div>
-          <div>
-            Click anywhere to return.
-          </div>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={() => navigate("/home")}
+          >
+            Return
+          </Button>
         </div>
       )}
     </div>

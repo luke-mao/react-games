@@ -78,7 +78,7 @@ export default function MathGame() {
           <Input
             className="!text-6xl h-fit text-center"
             type="number"
-            placeholder="Answer"
+            placeholder="??"
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
           />
