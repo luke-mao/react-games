@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "@/assets/logo.png";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Sidebar() {
   // the sidebar shows different texts under lg, md, and sm screens
@@ -21,6 +21,10 @@ export default function Sidebar() {
     { to: "/game/flappybird", lg: "Flappy Bird", md: "FB", sm: "FB"},
   ];
 
+  // highlight the current link based on the location
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   return (
     <div className="h-screen w-[40px] md:w-[70px] lg:w-[110px] fixed bg-[#eee]">
       <Avatar className=" hidden lg:block w-[50px] h-[50px] my-[15px] mx-auto">
@@ -28,16 +32,21 @@ export default function Sidebar() {
         <AvatarFallback>Logo</AvatarFallback>
       </Avatar>
       <div className="flex flex-col items-center gap-3 pt-5 lg:pt-0 uppercase text-center">
-        {links.map((link) => (
-          <Link
-            key={link.to}
-            to={link.to}
-          >
-            <span className="hidden lg:block text-base">{link.lg}</span>
-            <span className="hidden md:block lg:hidden">{link.md}</span>
-            <span className="block md:hidden text-base">{link.sm}</span>
-          </Link>
-        ))}
+        {links.map((link) => {
+          const isActiveLink = (currentPath === link.to) || (currentPath === "/" && link.to === "/home");
+
+          return (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`${isActiveLink ? "bg-blue-500 text-white px-2 py-1 rounded" : ""}`}
+            >
+              <span className="hidden lg:block text-base">{link.lg}</span>
+              <span className="hidden md:block lg:hidden">{link.md}</span>
+              <span className="block md:hidden text-base">{link.sm}</span>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
