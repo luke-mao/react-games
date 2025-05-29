@@ -212,7 +212,7 @@ export default function Memorisation() {
 
   return (
     <div className="w-full h-full flex flex-col gap-15 items-center justify-center">
-      <div className="h-1/2 aspect-square flex flex-row flex-wrap items-center justify-center gap-0">
+      <div className="w-3/4 max-w-[400px] aspect-square flex flex-row flex-wrap items-center justify-center gap-0">
         {cells.map((cell) => (
           <div
             key={`cell-${cell}`}

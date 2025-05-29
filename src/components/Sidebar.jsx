@@ -31,7 +31,7 @@ export default function Sidebar() {
         <AvatarImage src={Logo}/>
         <AvatarFallback>Logo</AvatarFallback>
       </Avatar>
-      <div className="flex flex-col items-center gap-3 pt-5 lg:pt-0 uppercase text-center">
+      <div className="flex flex-col items-center gap-4 pt-5 lg:pt-0 uppercase text-center">
         {links.map((link) => {
           const isActiveLink = (currentPath === link.to) || (currentPath === "/" && link.to === "/home");
 
@@ -39,11 +39,11 @@ export default function Sidebar() {
             <Link
               key={link.to}
               to={link.to}
-              className={`${isActiveLink ? "bg-blue-500 text-white px-2 py-1 rounded" : ""}`}
+              className={`w-full flex justify-center items-center text-sm ${isActiveLink ? " bg-blue-500 text-white py-1 rounded" : ""}`}
             >
-              <span className="hidden lg:block text-base">{link.lg}</span>
+              <span className="hidden lg:block">{link.lg}</span>
               <span className="hidden md:block lg:hidden">{link.md}</span>
-              <span className="block md:hidden text-base">{link.sm}</span>
+              <span className="block md:hidden">{link.sm}</span>
             </Link>
           );
         })}
