@@ -34,18 +34,21 @@ export default function Tictac() {
     return `${borderTop} ${borderBottom} ${borderLeft} ${borderRight}`;
   };
 
-  // check the background color of this cell
+  // check the background color of this cell.
   const cellBackground = (index) => {
     // when it is animation, switch between #fff and #000
     if (isAnimation) {
       return isAnimationWhiteBackground ? "bg-[#fff]" : "bg-[#000]";
     } else {
+      // when it is player1;s turn, all the non-filled squares on the board have bg rgb(255, 220, 220).
+      // when it is player2's turn, all the non-filled squares on the board have bg rgb(220, 220, 255).
       if (matrix[index] === 1) {
-        return "bg-[rgb(255,220,220)]";
+        return "";
       } else if (matrix[index] === 2) {
-        return "bg-[rgb(220,220,255)]";
+        return "";
       } else {
-        return "bg-transparent";
+        console.log("isPlayer1Move", isPlayer1Move);
+        return isPlayer1Move ? "bg-[rgb(255,220,220)]" : "bg-[rgb(220,220,255)]";
       }
     }
   };
@@ -154,9 +157,11 @@ export default function Tictac() {
       {matrix.map((value, index) => (
         <div
           key={index}
-          className={`cursor-pointer w-1/3 h-1/3 flex items-center justicy-center border-2 border-[#333] ${borderStatus(index)} ${cellBackground(index)}`}
+          className={`cursor-pointer w-1/3 h-1/3 flex items-center justify-center text-[3em] font-bold border-2 border-[#333] ${borderStatus(index)} ${cellBackground(index)}`}
           onClick={() => onClickCell(index)}
-        />
+        >
+          {value === 1 ? "X" : value === 2 ? "O" : ""}
+        </div>
       ))}
     </div>
   );
