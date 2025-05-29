@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useModal } from "@/hook/useModal";
+import { useNavigate } from "react-router-dom";
 
 export default function MathGame() {
+  const { openModal } = useModal();
+  const navigate = useNavigate();
+
   // get random number between 1 and 50 inclusive
   const getNumber = () => Math.floor(Math.random() * 50) + 1;
 
@@ -58,8 +63,13 @@ export default function MathGame() {
     if (userInput === getAnswer().toString()) {
       // let the browser paint the screen first
       setTimeout(() => {
-        alert("Correct!");
-        resetGame();
+        openModal(
+          "Congratulations!",
+          "You got the answer right! Would you like to play again?",
+          () => resetGame(),
+          "yesno",
+          () => navigate("/"),
+        );
       }, 100);
     }
   }, [userInput]);

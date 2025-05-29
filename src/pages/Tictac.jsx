@@ -47,7 +47,6 @@ export default function Tictac() {
       } else if (matrix[index] === 2) {
         return "";
       } else {
-        console.log("isPlayer1Move", isPlayer1Move);
         return isPlayer1Move ? "bg-[rgb(255,220,220)]" : "bg-[rgb(220,220,255)]";
       }
     }
