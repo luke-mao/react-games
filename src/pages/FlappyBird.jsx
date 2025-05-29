@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Bird from "@/assets/bird.png";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { nanoid } from "nanoid";
 
 const STAGES = {
   PRESTART: "prestart",
@@ -20,7 +22,7 @@ const OBSTACLE_MIN_HEIGHT = 10;
 const OBSTACLE_WIDTH = 70;
 
 // the gap between the top and bottom obstacles
-const OBSTACLE_GAP = 150; 
+const OBSTACLE_GAP = 160; 
 
 // when the rightmost obstacle is outside the boundary to the right screen boundary,
 // create a new obstacle
@@ -56,7 +58,12 @@ export default function FlappyBird() {
   const animationRef = useRef(null);
 
   // counter for the number of obstacles passed
-  const [score, setScore] = useState(0);
+  const [scoreIds, setScoreIds] = useState([]);
+  const scoreIdsRef = useRef(scoreIds);
+
+  useEffect(() => {
+    scoreIdsRef.current = scoreIds;
+  }, [scoreIds]);
 
   // a list of obstacles, record the left bottom corner of the top obstacle.
   // the matching bottom obstacle has same left coordinate, and a gap of 150px
@@ -75,11 +82,13 @@ export default function FlappyBird() {
         const newObstacle = {
           left: screenRef.current.clientWidth - OBSTACLE_WIDTH - OBSTACLE_WIDTH,
           top: Math.floor(Math.random() * (threshold - OBSTACLE_MIN_HEIGHT)) + OBSTACLE_MIN_HEIGHT,
-          scored: false,
+          id: nanoid(),
         };
 
         setObstacles([newObstacle]);
-        setScore(0);
+
+        // clear the scores
+        setScoreIds([]);
       }
     }
   }, [screenRef]);
@@ -137,7 +146,6 @@ export default function FlappyBird() {
         // move the obstacles
         setObstacles((prevObstacles) => {
           const newObstacles = [];
-          let newScore = 0;
 
           prevObstacles.forEach((ob) => {
             const newOb = { ...ob };
@@ -145,10 +153,9 @@ export default function FlappyBird() {
             const newLeft = newOb.left - (isSmallScreen ? OBSTACLE_SPEED * 0.5 : OBSTACLE_SPEED);
 
             // if left + OBSTACLE_WIDTH < bird X, then the bird has passed, and increase the score
-            if (newLeft + OBSTACLE_WIDTH < BIRD_X && !newOb.scored) {
+            if (newLeft + OBSTACLE_WIDTH < BIRD_X && !scoreIdsRef.current.includes(newOb.id)) {
               // prevnet counting again
-              newOb.scored = true;
-              newScore += 1;
+              setScoreIds((prevIds) => [...prevIds, newOb.id]);
             }
 
             // if the new left is still within the screen, then keep it
@@ -161,11 +168,6 @@ export default function FlappyBird() {
             }
           });
 
-          // update the score
-          if (newScore > 0) {
-            setScore((prevScore) => prevScore + newScore);
-          }
-
           // if the last obstacle is too far away (exceed the threshold), 
           // then create a new obstacle
           const lastObstacle = newObstacles[newObstacles.length - 1];
@@ -175,7 +177,7 @@ export default function FlappyBird() {
             const newObstacle = {
               left: screenRef.current.clientWidth - OBSTACLE_WIDTH,
               top: Math.floor(Math.random() * (threshold - OBSTACLE_MIN_HEIGHT)) + OBSTACLE_MIN_HEIGHT,
-              scored: false,
+              id: nanoid(),
             };
 
             newObstacles.push(newObstacle);
@@ -208,22 +210,19 @@ export default function FlappyBird() {
 
   return (
     <div 
-      className="relative w-full h-full flex flex-col items-center justify-center"
+      className="relative w-full h-full flex flex-col items-center justify-center gap-3"
       onClick={() => {
         if (stage === STAGES.PRESTART) {
           startGame();
         } else if (stage === STAGES.PLAY) {
           // jump the bird by 30 px
           jumpBird();
-        } else if (stage === STAGES.OVER) {
-          // navigate to home page
-          navigate("/home");
         }
       }}
     >
       {stage === STAGES.PRESTART && (
-        <div className="absolute top-5 left-5 text-left">
-          <div className="text-2xl">Welcome to Flappy Bird!</div>
+        <div className="text-center">
+          <div className="text-xl">Welcome to Flappy Bird!</div>
           <div className="text-xl">Get a score of 3 to win!</div>
         </div>
       )}
@@ -232,7 +231,7 @@ export default function FlappyBird() {
         ref={screenRef}
         className="
           relative 
-          w-[370px] h-[600px] 
+          w-[95%] h-[550px] 
           sm:w-[600px] sm:h-[400px] 
           bg-[#eee]
           rounded
@@ -241,7 +240,9 @@ export default function FlappyBird() {
       >
         {/* show the text only in prestart stage */}
         {stage === STAGES.PRESTART && (
-          <div className="text-xl">Hit space or click to begin</div>
+          <div className="text-xl" style={{ zIndex: 20 }}>
+            Hit space or click to begin
+          </div>
         )}
         {/* show the bird */}
         {stage !== STAGES.OVER && (
@@ -265,7 +266,8 @@ export default function FlappyBird() {
           <div
             className="absolute top-3 left-3 text-xl"
           >
-            {`Score: ${score}`}
+            {/* find the number of unique strings in the scoredIds */}
+            {`Score: ${new Set(scoreIdsRef.current).size}`}
           </div>
         )}
         {/* obstacles, each one has a top and bottom pair */}
@@ -302,14 +304,20 @@ export default function FlappyBird() {
         {/* show the game over text */}
         {stage === STAGES.OVER && (
           <div className="text-xl flex flex-col items-center justify-center gap-3">
-            <div>{`Score: ${score}`}</div>
+            <div>{`Score: ${new Set(scoreIdsRef.current).size}`}</div>
             <div>Game Over</div>
             <div>
-              {score >= 3 ? "You win!" : "You lose!"}
+              {new Set(scoreIdsRef.current).size >= 3
+                ? "You win!"
+                : "You lose! Try again!"}
             </div>
-            <div>
-              Click anywhere to return
-            </div>
+            <Button 
+              variant="outline"
+              onClick={() => navigate("/home")}
+              className="mt-2 cursor-pointer"
+            >
+              Return
+            </Button>
           </div>
         )}
       </div>
