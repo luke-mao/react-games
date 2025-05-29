@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useModal } from "@/hook/useModal";
 import React, { useEffect, useState } from "react";
@@ -28,6 +28,9 @@ const NumberBlockDialog = ({ setNumBlocks, startGame }) => (
         <DialogTitle>
           How many blocks do you want to start with?
         </DialogTitle>
+        <DialogDescription>
+          Choose from 3 to 5 blocks.
+        </DialogDescription>
       </DialogHeader>
       <div className="flex flex-row items-center justify-center md:justify-start">
         <Select>
@@ -155,6 +158,14 @@ export default function Tower() {
             key={index}
             className="relative w-1/4 h-[300px] border-[2px] border-dashed border-[#999] cursor-pointer"
             onClick={() => clickTower(index)}
+            // add the background color when this cell is either "from" or "to"
+            style={{
+              // backgroundColor: 
+              // when this tower is the "from", add a light blue background,
+              // and when tower from and to are the same, do not add any background color.
+              // no need to apply color to "to" tower, since the block will move.
+              backgroundColor: (move.from === index && move.to !== move.from) ? "rgba(173, 216, 230, 0.5)" : "transparent",
+            }}
           >
             {/* bottom has a horizontal line about 3px thick */}
             <div className="absolute bottom-0 w-full h-[5px] translate-y-1/2 bg-[#999]"/>
