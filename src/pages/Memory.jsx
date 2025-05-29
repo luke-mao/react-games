@@ -18,6 +18,9 @@ export default function Memory() {
   // ABCD 4 cells
   const cells = ["A", "B", "C", "D"];
 
+  // click and will set that as the active cell
+  const [activeCell, setActiveCell] = useState(null);
+
   // get some random characters from the cells based on the number
   const getRandom = (num) => {
     const result = [];
@@ -101,13 +104,15 @@ export default function Memory() {
         const isSame = game.clicks.every((click, index) => click === game.instructions[index]);
 
         if (isSame) {
-          // move to the next stage
-          setGame((prev) => ({
-            clicks: [],
-            round: prev.round + 1,
-            stage: STAGES.DISPLAY,
-            instructions: getRandom(prev.round + 1),
-          }));
+          // move to the next stage after 0.5 seconds
+          setTimeout(() => {
+            setGame((prev) => ({
+              stage: STAGES.DISPLAY,
+              instructions: getRandom(prev.round + 1),
+              clicks: [],
+              round: prev.round + 1,
+            }));
+          }, 500);
         } else {
           // open modal for losing, and reset the game
           openModal(
@@ -134,8 +139,21 @@ export default function Memory() {
         {cells.map((cell) => (
           <div
             key={cell}
-            className={`h-full w-1/4 flex items-center justify-center text-6xl border-2 rounded ${game.stage === STAGES.CLICK ? "cursor-pointer hover:bg-[#cccccc]" : "bg-[#eee]"}`}
-            onClick={() => click(cell)}
+            className={`h-full w-1/4 
+              flex items-center justify-center 
+              text-6xl border-2 rounded 
+              ${game.stage === STAGES.CLICK ? "cursor-pointer" : "bg-[#eee]"}
+              ${activeCell === cell ? "bg-[#cccccc]" : ""}
+            `}
+            onClick={() => {
+              click(cell);
+              setActiveCell(null);
+            }}
+            onMouseDown={() => setActiveCell(cell)}
+            onMouseUp={() => setActiveCell(null)}
+            onMouseLeave={() => setActiveCell(null)}
+            onTouchStart={() => setActiveCell(cell)}
+            onTouchEnd={() => setActiveCell(null)}
           >
             {cell}
           </div>
